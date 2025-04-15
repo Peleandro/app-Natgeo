@@ -6,145 +6,192 @@ class NatGeoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'National Geographic',
-      theme: ThemeData(
-        primaryColor: Color(0xFF007A33),
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(
-          backgroundColor: Color(0xFF007A33),
-          foregroundColor: Colors.white,
-        ),
-      ),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      title: 'NatGeo App',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        fontFamily: 'Georgia',
+      ),
+      home: MainPage(),
     );
   }
 }
 
-class HomeScreen extends StatefulWidget {
+class MainPage extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MainPageState createState() => _MainPageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
+class _MainPageState extends State<MainPage> {
+  int _currentIndex = 0;
   final List<Widget> _pages = [
-    CienciaPage(),
-    AnimalesPage(),
-    MedioAmbientePage(),
-    HistoriaPage(),
+    HomePage(),
+    SciencePage(),
+    EnvironmentPage(),
+    AnimalsPage(),
   ];
-
-  void _onItemTapped(int index) {
-    setState(() => _selectedIndex = index);
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('National Geographic')),
-      body: _pages[_selectedIndex],
+      body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: Color(0xFF007A33),
+        currentIndex: _currentIndex,
+        selectedItemColor: Colors.green[700],
         unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-        items: const [
+        onTap: (index) {
+          setState(() => _currentIndex = index);
+        },
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
           BottomNavigationBarItem(icon: Icon(Icons.science), label: 'Ciencia'),
+          BottomNavigationBarItem(icon: Icon(Icons.public), label: 'Medioambiente'),
           BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Animales'),
-          BottomNavigationBarItem(icon: Icon(Icons.eco), label: 'Medio Ambiente'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Historia'),
         ],
       ),
     );
   }
 }
 
-class CienciaPage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.all(16),
-      children: [
-        Image.network("https://www.nationalgeographic.com.es/medio/2023/12/01/ciencia_6d4057d6_231201145328_1280x720.jpg"),
-        SizedBox(height: 16),
-        Text(
-          'Explorando el conocimiento',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return ContentPage(
+      title: 'Noticias Destacadas',
+      items: [
+        ArticleItem(
+          imageUrl: 'https://via.placeholder.com/400x200',
+          title: 'El mundo natural en imágenes',
+          description: 'Una mirada visual al esplendor del planeta.',
         ),
-        SizedBox(height: 8),
-        Text(
-          'La sección de ciencia de National Geographic cubre los últimos avances científicos, investigaciones espaciales, salud, física y más. Aquí se explica el mundo desde lo observable hasta lo teórico.',
-          style: TextStyle(fontSize: 16),
+        ArticleItem(
+          imageUrl: 'https://via.placeholder.com/400x200',
+          title: 'Viajes extraordinarios',
+          description: 'Historias desde los rincones más remotos.',
         ),
       ],
     );
   }
 }
 
-class AnimalesPage extends StatelessWidget {
+class SciencePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.all(16),
-      children: [
-        Image.network("https://www.nationalgeographic.com.es/medio/2023/07/20/leon_9d4bce3c_230720140530_1280x720.jpg"),
-        SizedBox(height: 16),
-        Text(
-          'El reino animal',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return ContentPage(
+      title: 'Ciencia',
+      items: [
+        ArticleItem(
+          imageUrl: 'https://via.placeholder.com/400x200',
+          title: 'Descubrimientos recientes',
+          description: 'Lo último en astronomía y física.',
         ),
-        SizedBox(height: 8),
-        Text(
-          'Desde los leones africanos hasta los insectos más extraños, esta sección nos lleva al corazón del comportamiento animal, conservación y biodiversidad global.',
-          style: TextStyle(fontSize: 16),
+        ArticleItem(
+          imageUrl: 'https://via.placeholder.com/400x200',
+          title: 'Tecnología verde',
+          description: 'Innovaciones para un mundo sustentable.',
         ),
       ],
     );
   }
 }
 
-class MedioAmbientePage extends StatelessWidget {
+class EnvironmentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.all(16),
-      children: [
-        Image.network("https://www.nationalgeographic.com.es/medio/2023/04/22/medio-ambiente_ef27f95f_230422105129_1280x720.jpg"),
-        SizedBox(height: 16),
-        Text(
-          'Protegiendo el planeta',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    return ContentPage(
+      title: 'Medioambiente',
+      items: [
+        ArticleItem(
+          imageUrl: 'https://via.placeholder.com/400x200',
+          title: 'Cambio climático',
+          description: 'Efectos y soluciones posibles.',
         ),
-        SizedBox(height: 8),
-        Text(
-          'Conoce los desafíos ambientales del presente: cambio climático, sostenibilidad, energías renovables y más. Aprende cómo podemos marcar la diferencia.',
-          style: TextStyle(fontSize: 16),
+        ArticleItem(
+          imageUrl: 'https://via.placeholder.com/400x200',
+          title: 'Energías renovables',
+          description: 'Cómo reducir nuestra huella ecológica.',
         ),
       ],
     );
   }
 }
 
-class HistoriaPage extends StatelessWidget {
+class AnimalsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ContentPage(
+      title: 'Animales',
+      items: [
+        ArticleItem(
+          imageUrl: 'https://via.placeholder.com/400x200',
+          title: 'Especies en peligro',
+          description: 'Acciones para proteger la fauna.',
+        ),
+        ArticleItem(
+          imageUrl: 'https://via.placeholder.com/400x200',
+          title: 'Mundo submarino',
+          description: 'La biodiversidad de los océanos.',
+        ),
+      ],
+    );
+  }
+}
+
+class ContentPage extends StatelessWidget {
+  final String title;
+  final List<ArticleItem> items;
+
+  ContentPage({required this.title, required this.items});
+
   @override
   Widget build(BuildContext context) {
     return ListView(
       padding: EdgeInsets.all(16),
       children: [
-        Image.network("https://www.nationalgeographic.com.es/medio/2022/06/10/historia-del-mundo_0e7bde2d_220610121153_1280x720.jpg"),
+        Text(title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
         SizedBox(height: 16),
-        Text(
-          'Tesoros del pasado',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 8),
-        Text(
-          'Desde civilizaciones antiguas hasta eventos modernos, la sección de Historia nos transporta por los grandes momentos del pasado con rigor y fascinación.',
-          style: TextStyle(fontSize: 16),
-        ),
+        ...items.map((item) => ArticleCard(item: item)).toList(),
       ],
+    );
+  }
+}
+
+class ArticleItem {
+  final String imageUrl;
+  final String title;
+  final String description;
+
+  ArticleItem({required this.imageUrl, required this.title, required this.description});
+}
+
+class ArticleCard extends StatelessWidget {
+  final ArticleItem item;
+
+  ArticleCard({required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.network(item.imageUrl, fit: BoxFit.cover, width: double.infinity, height: 200),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(item.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                SizedBox(height: 8),
+                Text(item.description),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
